@@ -150,6 +150,3 @@ def jeu_de_carte(self): # Permet de restart le jeu
                
     self.tour_croupier()
     self.verifier_gagnant()
-if __name__ == "__main__":
-blackjack_game = jeu_de_cartes()
-blackjack_game.jeu_de_carte()
