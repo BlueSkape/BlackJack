@@ -2,7 +2,7 @@ from guiBlackJack import GUIblackjack
 from random import shuffle
 from time import sleep
 
-class jeu_de_cartes:
+class jeu_de_carte:
     def __init__(self):
         c = [(nbre, '♥') for nbre in range(1, 14)]
         t = [(nbre, '♣') for nbre in range(1, 14)]
