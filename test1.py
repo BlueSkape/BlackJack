@@ -20,32 +20,17 @@ paquet = jeu_de_carte()
 
 paquet.melange_carte()
 
-class BlackjackGame:
-    def __init__(self):
-        self.paquet = jeu_de_carte()
-        self.paquet.melange_carte()
+    self.paquet = jeu_de_carte()
+    self.paquet.melange_carte()
 
-        self.jeu = GUIblackjack()
+    self.jeu = GUIblackjack()
 
-        self.croupier = []
-        self.joueur = []
-        self.argentcroupier = 100
-        self.argentjoueur = 100
-        self.argentcentre = 0
+    self.croupier = []
+    self.joueur = []
+    self.argentcroupier = 100
+    self.argentjoueur = 100
+    self.argentcentre = 0
        
-    def tour_croupier(self):
-        total_croupier = 0
-        for carte in self.croupier:
-            total_croupier += carte[0]
-
-        while total_croupier < 17:
-            carte_croupier = self.paquet.pioche_carte()
-            self.croupier.append(carte_croupier)
-            total_croupier += carte_croupier[0]
-            sleep(0.5)
-            self.jeu.refresh(self.croupier, self.joueur, t="", cacheCroupier=True)
-            self.jeu.affJetons(self.argentcroupier, self.argentjoueur, self.argentcentre)
-
     def jeu_de_carte(self): # Permet de restart le jeu
         self.croupier = []
         self.joueur = []
