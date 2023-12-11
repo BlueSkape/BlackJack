@@ -20,18 +20,16 @@ paquet = jeu_de_carte()
 
 paquet.melange_carte()
 
-class BlackjackGame:
-    def __init__(self):
-        self.paquet = jeu_de_carte()
-        self.paquet.melange_carte()
+    self.paquet = jeu_de_carte()
+    self.paquet.melange_carte()
 
-        self.jeu = GUIblackjack()
+    self.jeu = GUIblackjack()
 
-        self.croupier = []
-        self.joueur = []
-        self.argentcroupier = 100
-        self.argentjoueur = 100
-        self.argentcentre = 0
+    self.croupier = []
+    self.joueur = []
+    self.argentcroupier = 100
+    self.argentjoueur = 100
+    self.argentcentre = 0
       
     def jeu_de_carte(self): # Permet de restart le jeu
         self.croupier = []
