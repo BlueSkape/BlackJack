@@ -195,6 +195,14 @@ class BlackjackGame:
                 carte = paquet.pioche_carte() # permet d'aller chercher une carte dans le paquet
                 self.joueur.append(carte) # rajoute la carte piocher à joueur, la liste qui étais vide la 
                 self.carte_joueur()
+            elif click == 'x':
+                self.jeu.refresh(self.croupier, self.joueur, t="Appuyez à nouveau pour quitter", cacheCroupier=False)
+                sleep(0.5)
+                self.jeu.refresh(self.croupier, self.joueur, t="Partie quittée.", cacheCroupier=False)
+                sleep(0.5)
+                self.jeu.messCentre("A bientôt !")
+                sleep(0.5)
+                self.quitter_jeu()
                     
 # Permet non seulement de distribuer les gains mais en plus de vérifier le gagnant sous plusieur condition
 # Incroyable n'est ce pas
@@ -224,6 +232,8 @@ class BlackjackGame:
 # Condition dans le cas où l'argent du joueur ou du croupier est égual a 0, à appeler pour etre utilisé       
     def argent_joueur(self):
         if self.argentjoueur == 0:
+            self.jeu.refresh(self.croupier, self.joueur, t="", cacheCroupier=False)
+            self.jeu.affJetons(self.argentcroupier, self.argentjoueur, self.argentcentre)
             self.jeu.messCentre("Plus d'argent")
             sleep(2)
             self.jeu.refresh(self.croupier, self.joueur, t="Restart ?(r) ou quitter ?(q)", cacheCroupier=False)
