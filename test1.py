@@ -46,7 +46,7 @@ class BlackjackGame:
 # Méthode pour continuer et encommencer sans réinitialiser les gains obtenu lors de la partie précédente
 # En soit il sert à rien
 # C'est juste histoire de l'avoir comme ca
-    def recommencer_jeu(self):
+    def continuer_partie(self):
         self.argent_joueur()
         self.argent_croupier()
         self.jeu_de_carte()
@@ -98,17 +98,17 @@ class BlackjackGame:
         self.argentcentre = 0
 # Phrases de lancement (pas forcément utile, mais j'aime bien)
     # Oui je suis un gamin, ca sert a rien mais je trouve ca stylé
-        self.jeu.refresh(self.croupier, self.joueur, t='Chargement en cours.', cacheCroupier=True) 
+        self.jeu.refresh(self.croupier, self.joueur, t='Chargement.', cacheCroupier=True) 
         sleep(0.5)
-        self.jeu.refresh(self.croupier, self.joueur, t='Chargement en cours..', cacheCroupier=True)
+        self.jeu.refresh(self.croupier, self.joueur, t='Chargement..', cacheCroupier=True)
         sleep(0.5)
-        self.jeu.refresh(self.croupier, self.joueur, t='Chargement en cours...', cacheCroupier=True)
+        self.jeu.refresh(self.croupier, self.joueur, t='Chargement...', cacheCroupier=True)
         sleep(0.5)
-        self.jeu.refresh(self.croupier, self.joueur, t='Chargement en cours.', cacheCroupier=True)
+        self.jeu.refresh(self.croupier, self.joueur, t='Chargement.', cacheCroupier=True)
         sleep(0.5)
-        self.jeu.refresh(self.croupier, self.joueur, t='Chargement en cours..', cacheCroupier=True)
+        self.jeu.refresh(self.croupier, self.joueur, t='Chargement..', cacheCroupier=True)
         sleep(0.5)
-        self.jeu.refresh(self.croupier, self.joueur, t='Chargement en cours...', cacheCroupier=True)
+        self.jeu.refresh(self.croupier, self.joueur, t='Chargement...', cacheCroupier=True)
         sleep(0.5)        
         self.jeu.refresh(self.croupier, self.joueur, t='Bienvenue sur la table de BlackJack', cacheCroupier=True)
         sleep(1)
@@ -142,6 +142,12 @@ class BlackjackGame:
                 self.jeu.messCentre("A bientôt !")
                 sleep(0.5)
                 self.quitter_jeu()
+            elif click == 'a':
+                self.argentcentre += self.argentjoueur
+                self.argentjoueur = 0
+            elif click == 'z':
+                self.argentjoueur += self.argentcentre
+                self.argentcentre = 0
             else:
                 if click != '_U' or click != '_D' or click != '_E' or click != 'x':
                     self.jeu.refresh(self.croupier, self.joueur, t='Appuyez sur les bonnes touches !', cacheCroupier=True)
@@ -189,7 +195,7 @@ class BlackjackGame:
         # On l'utilise pour s'assurer que la variable a une valeur avant d'être utilisée dans la condition de la boucle.
         click = None
         click = self.jeu.waitClick() # Encore une fois attend le clic du joueur
-# Première condition, dans le cas où c'est le tour du joueur
+# Tour du joueur si utilisation de la touche 'o',donc choix de piocher
         while click != 'n' and self.totaljoueur < 21:
             if click == 'o':
                 carte = paquet.pioche_carte() # permet d'aller chercher une carte dans le paquet
@@ -203,29 +209,16 @@ class BlackjackGame:
                 self.jeu.messCentre("A bientôt !")
                 sleep(0.5)
                 self.quitter_jeu()
-                    
-# Permet non seulement de distribuer les gains mais en plus de vérifier le gagnant sous plusieur condition
-# Incroyable n'est ce pas
-# Tous ca en une ligne
-            self.distribuer_gains()
-            
-# condition lié au tour du croupier, soit deuxième condition
-        if click == 'n':
-            if click == 'o': # Bon ca marche pas, à revoir (ca m'énerve !)
-                self.jeu.refresh(self.croupier, self.joueur, t="Non Non Non", cacheCroupier=True)
-                self.jeu.affJetons(self.argentcroupier, self.argentjoueur, self.argentcentre)
-                sleep(0.5)
-            # Sinon à partir d'ici c'est bon
-            self.jeu.refresh(self.croupier, self.joueur, t="Vous passez votre tour", cacheCroupier=True)
-            self.jeu.affJetons(self.argentcroupier, self.argentjoueur, self.argentcentre)
-            sleep(0.5)
-            self.jeu.refresh(self.croupier, self.joueur, t="Au tour du croupier", cacheCroupier=True)
-            self.jeu.affJetons(self.argentcroupier, self.argentjoueur, self.argentcentre)
-            sleep(1.5)
-            self.tour_croupier()                
-            self.jeu.refresh(self.croupier, self.joueur, t="", cacheCroupier=False)
-            self.jeu.affJetons(self.argentcroupier, self.argentjoueur, self.argentcentre)
-        click = self.jeu.waitClick()
+# tour du croupier, si utilisation de 'n'onc choix de ne pas piocher                    
+        self.jeu.refresh(self.croupier, self.joueur, t="Vous passez votre tour", cacheCroupier=True)
+        self.jeu.affJetons(self.argentcroupier, self.argentjoueur, self.argentcentre)
+        sleep(0.5)
+        self.jeu.refresh(self.croupier, self.joueur, t="Au tour du croupier", cacheCroupier=True)
+        self.jeu.affJetons(self.argentcroupier, self.argentjoueur, self.argentcentre)
+        sleep(1.5)
+        self.tour_croupier()                
+        self.jeu.refresh(self.croupier, self.joueur, t="", cacheCroupier=False)
+        self.jeu.affJetons(self.argentcroupier, self.argentjoueur, self.argentcentre)
         self.distribuer_gains() # Et oui il faut redistribuer les gains, c'est une autre condition 'if'
         # ainsi que vérification du vainceur
         
@@ -391,11 +384,11 @@ class BlackjackGame:
         self.jeu.affJetons(self.argentcroupier, self.argentjoueur, self.argentcentre)
         click = self.jeu.waitClick()
         if click == 'c':
-            self.recommencer_jeu()
+            self.continuer_partie()
         elif click == 'q':
             self.jeu.refresh(self.croupier, self.joueur, t="Partie quittée.", cacheCroupier=False)
             sleep(0.5)
-            self.jeu.messCentre("A bientôt !") 
+            self.jeu.messCentre("A bientôt !") <
             sleep(1)
             self.quitter_jeu()
             
